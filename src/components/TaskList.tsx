@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import "../styles/tasklist.scss";
+import '../styles/tasklist.scss';
 
-import { FiTrash, FiCheckSquare } from "react-icons/fi";
+import { FiTrash, FiCheckSquare } from 'react-icons/fi';
 
 interface Task {
 	id: number;
@@ -12,10 +12,19 @@ interface Task {
 
 export function TaskList() {
 	const [tasks, setTasks] = useState<Task[]>([]);
-	const [newTaskTitle, setNewTaskTitle] = useState("");
+	const [newTaskTitle, setNewTaskTitle] = useState('');
 
 	function handleCreateNewTask() {
 		// Crie uma nova task com um id random, não permita criar caso o título seja vazio.
+		if (!newTaskTitle) return;
+
+		const newTask = {
+			id: Math.random(),
+			title: newTaskTitle,
+			isComplete: false,
+		};
+		setTasks(oldState => [...oldState, newTask]);
+		setNewTaskTitle('');
 	}
 
 	function handleToggleTaskCompletion(id: number) {
@@ -53,7 +62,7 @@ export function TaskList() {
 					{tasks.map(task => (
 						<li key={task.id}>
 							<div
-								className={task.isComplete ? "completed" : ""}
+								className={task.isComplete ? 'completed' : ''}
 								data-testid="task"
 							>
 								<label className="checkbox-container">
